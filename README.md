@@ -12,7 +12,7 @@ https://github.com/ryanmjacobs/c
 
 CD into tool directory and Run
 
-c dtbTool.c
+c dtbTool.c -h
 
 
 
