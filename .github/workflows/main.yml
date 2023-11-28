@@ -24,7 +24,7 @@ jobs:
       env:
         CC: ${{ steps.install_cc.outputs.cc }}
         CXX: ${{ steps.install_cc.outputs.cxx }}
-      run: $CC -static -static-libgcc -static-libstdc++ dtbTool.c -o dtbTool && $CXX -static -static-libgcc -static-libstdc++ dtbSplit.cpp -o dtbSplit
+      run: $CC -D_FILE_OFFSET_BITS=64 -static -static-libgcc -static-libstdc++ dtbTool.c -o dtbTool && $CXX -D_FILE_OFFSET_BITS=64 -static -static-libgcc -static-libstdc++ dtbSplit.cpp -o dtbSplit
     - name: Release build
       uses: ncipollo/release-action@v1
       with:
@@ -50,7 +50,7 @@ jobs:
       env:
         CC: ${{ steps.install_cc.outputs.cc }}
         CXX: ${{ steps.install_cc.outputs.cxx }}
-      run: $CC -static -static-libgcc -static-libstdc++ dtbTool.c -o dtbTool.exe && $CXX -static -static-libgcc -static-libstdc++ dtbSplit.cpp -o dtbSplit.exe
+      run: $CC -D_FILE_OFFSET_BITS=64 -static -static-libgcc -static-libstdc++ dtbTool.c -o dtbTool.exe && $CXX -D_FILE_OFFSET_BITS=64 -static -static-libgcc -static-libstdc++ dtbSplit.cpp -o dtbSplit.exe
     - name: Release build
       uses: ncipollo/release-action@v1
       with:
