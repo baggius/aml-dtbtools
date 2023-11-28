@@ -427,8 +427,10 @@ int main(int argc, char **argv)
     /* Open the .dtb files in the specified path, decompile and
        extract "amlogic-dt-id" parameter
      */
+    struct stat dpstat;
     while ((dp = readdir(dir)) != NULL) {
-        if ((dp->d_type == DT_REG)) {
+        stat(dp->d_name, &dpstat);
+        if ((/*dp->d_type == DT_REG*/ dpstat.st_mode & S_ISREG)) {
             flen = strlen(dp->d_name);
             if ((flen > 4) &&
                 (strncmp(&dp->d_name[flen-4], ".dtb", 4) == 0)) {
