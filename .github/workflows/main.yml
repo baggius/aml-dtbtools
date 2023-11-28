@@ -1,0 +1,33 @@
+name: Build on Tag
+
+on:
+  push:
+    tags: '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions: 
+      contents: write
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v2
+    - name: Install compiler
+      id: install_cc
+      uses: rlalik/setup-cpp-compiler@master
+      with:
+        compiler: latest
+    - name: Build
+      id: build
+      shell: bash
+      env:
+        CC: ${{ steps.install_cc.outputs.cc }}
+        CXX: ${{ steps.install_cc.outputs.cxx }}
+      run: $CC -static -static-libgcc -static-libstdc++ dtbTool.c -o dtbTool
+    - name: Release build
+      uses: ncipollo/release-action@v1
+      with:
+        #artifacts: ${{ steps.build.outputs.outfile }}
+        artifacts: /home/runner/work/aml-dtbtools/aml-dtbtools/dtbTool
+        token: ${{ secrets.GITHUB_TOKEN }}
+        allowUpdates: true
