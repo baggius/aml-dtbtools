@@ -61,7 +61,8 @@
 #define INFO_ENTRY_SIZE_S  "16"
 #define TABLE_ENTRY_HEADER_SIZE (INFO_ENTRY_SIZE * 3 + sizeof(uint32_t) * 2)
 
-#ifndef getline
+#if defined(__linux__) || defined (__unix__)
+#else
 size_t getline(char **lineptr, size_t *n, FILE *stream) {
     char *bufptr = NULL;
     char *p = bufptr;
