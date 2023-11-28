@@ -5,7 +5,8 @@ on:
     tags: '*'
 
 jobs:
-  build:
+  build_linux:
+    name: build_linux
     runs-on: ubuntu-latest
     permissions: 
       contents: write
@@ -28,5 +29,31 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         artifacts: "/home/runner/work/aml-dtbtools/aml-dtbtools/dtbTool,/home/runner/work/aml-dtbtools/aml-dtbtools/dtbSplit"
+        token: ${{ secrets.GITHUB_TOKEN }}
+        allowUpdates: true
+  build_windows:
+    name: build_windows 
+    runs-on: windows-latest
+    permissions: 
+      contents: write
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v2
+    - name: Install compiler
+      id: install_cc
+      uses: rlalik/setup-cpp-compiler@master
+      with:
+        compiler: latest
+    - name: Build
+      id: build
+      shell: bash
+      env:
+        CC: ${{ steps.install_cc.outputs.cc }}
+        CXX: ${{ steps.install_cc.outputs.cxx }}
+      run: $CC -static -static-libgcc -static-libstdc++ dtbTool.c -o dtbTool.exe && $CXX -static -static-libgcc -static-libstdc++ dtbSplit.cpp -o dtbSplit.exe
+    - name: Release build
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "/home/runner/work/aml-dtbtools/aml-dtbtools/dtbTool.exe,/home/runner/work/aml-dtbtools/aml-dtbtools/dtbSplit.exe"
         token: ${{ secrets.GITHUB_TOKEN }}
         allowUpdates: true
