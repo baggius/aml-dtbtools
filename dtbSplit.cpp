@@ -38,7 +38,15 @@
 #if defined(__linux__) || defined (__unix__)
 #include <arpa/inet.h>
 #else
-/*#include <winsock2.h>*/
+uint32_t ntohl(uint32_t const net) {
+    uint8_t data[4] = {};
+    memcpy(&data, &net, sizeof(data));
+
+    return ((uint32_t) data[3] << 0)
+         | ((uint32_t) data[2] << 8)
+         | ((uint32_t) data[1] << 16)
+         | ((uint32_t) data[0] << 24);
+}
 #endif
 
 using namespace std;
