@@ -54,6 +54,6 @@ jobs:
     - name: Release build
       uses: ncipollo/release-action@v1
       with:
-        artifacts: "/home/runner/work/aml-dtbtools/aml-dtbtools/dtbTool.exe,/home/runner/work/aml-dtbtools/aml-dtbtools/dtbSplit.exe"
+        artifacts: "D:/a/aml-dtbtools/aml-dtbtools/dtbTool.exe,D:/a/aml-dtbtools/aml-dtbtools/dtbSplit.exe"
         token: ${{ secrets.GITHUB_TOKEN }}
         allowUpdates: true
